@@ -1,39 +1,53 @@
 class SmartCalculator {
   constructor(initialValue) {
     this.initialValue = initialValue;
+    this.arr = [];
+    this.arr.push("+"+initialValue);
   }
 
   add(number) {
-    this.expression += `+ ${number} ` ;
+    this.arr.push(`+${number}`);
     return this;
   }
   
   subtract(number) {
-    this.expression += `- ${number} ` ;
+    this.arr.push(`-${number}`);
     return this; 
   }
 
   multiply(number) {
-    this.expression += `* ${number} ` ;
+    this.arr.push(`*${number}`);   
     return this;
   }
 
   devide(number) {
-    this.expression += `/ ${number} ` ;
+    this.arr.push(`/${number}`);
     return this;
   }
 
   pow(number) {
-    this.expression += `* ${number} ` ;
-   return this;
-  }
+    var temp = this.arr.pop();
+    var tempMark = temp[0] ;
+    temp = temp.replace(temp[0],'');
+
+    if(temp[0] == "M"){
+
+      if (temp[temp.indexOf(",") + 1] == 1 ) {number = 1;}
+
+      let cond = temp.replace(",", "," + `${number}*`);
+      this.arr.push(tempMark + cond);              
+      }else{
+      this.arr.push(tempMark + `Math.pow(${~~temp},${number})`);
+      }
+
+  return this;
+}
   toString() {
-  return 5;;
+    return eval(this.arr.join(''));
   }
 
   valueOf() {
-    let finalExpression = `${this.initialValue}` + this.expression.substring(9);
-    return eval(finalExpression);
+    return eval(this.arr.join(''));
   }
 }
 
